@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Birthday!</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
@@ -22,7 +22,7 @@
         h1 {
             font-family: 'Dancing Script', cursive;
             color: white;
-            font-size: 60px;
+            font-size: 3rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             animation: pulse 0.5s infinite alternate;
         }
@@ -39,12 +39,14 @@
 
         #message {
             font-family: YouYuan;
-            font-size: 24px;
-            margin: 20px 0;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
         }
 
         #image {
-            width: 300px;
+            width: 80%;
+            max-width: 300px;
             height: auto;
         }
 
@@ -58,6 +60,16 @@
             to {
                 top: 100vh;
             }
+        }
+
+        button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -95,11 +107,12 @@
             audio.play();
         });
 
-        function createFallingEmoji() {
+        function createFallingEmoji(x, y) {
             const emoji = document.createElement('span');
             emoji.classList.add('falling');
             emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            emoji.style.left = Math.random() * window.innerWidth + 'px';
+            emoji.style.left = x + 'px';
+            emoji.style.top = y + 'px';
             emoji.style.animationDuration = Math.random() * 3 + 2 + 's';
             document.body.appendChild(emoji);
 
@@ -108,22 +121,30 @@
             }, 5000);
         }
 
-        setInterval(createFallingEmoji, 500);
+        function handleMouseOrTouch(event) {
+            let x, y;
+            if (event.type === 'mousemove') {
+                x = event.clientX;
+                y = event.clientY;
+            } else if (event.type === 'touchmove') {
+                const touch = event.touches[0];
+                x = touch.clientX;
+                y = touch.clientY;
+            }
+            createFallingEmoji(x, y);
+        }
 
-        document.addEventListener('mousemove', (e) => {
-            const cake = document.createElement('span');
-            cake.classList.add('falling');
-            cake.textContent = '🍰';
-            cake.style.left = e.clientX + 'px';
-            cake.style.top = e.clientY + 'px';
-            cake.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.body.appendChild(cake);
+        document.addEventListener('mousemove', handleMouseOrTouch);
+        document.addEventListener('touchmove', handleMouseOrTouch);
 
-            setTimeout(() => {
-                document.body.removeChild(cake);
-            }, 5000);
-        });
+        function createRandomFallingEmoji() {
+            const x = Math.random() * window.innerWidth;
+            const y = -50;
+            createFallingEmoji(x, y);
+        }
+
+        setInterval(createRandomFallingEmoji, 500);
     </script>
 </body>
 
-</html>
+</html>    
