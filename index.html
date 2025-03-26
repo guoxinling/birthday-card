@@ -83,6 +83,15 @@
         ];
         const messageElement = document.getElementById('message');
 
+        // 获取音频元素
+        const audio = document.getElementById('birthdayMusic');
+
+        // 添加调试代码
+        console.log('音频元素:', audio);
+        audio.addEventListener('error', (event) => {
+            console.error('音频加载出错:', event.target.error);
+        });
+
         document.addEventListener('click', () => {
             const randomIndex = Math.floor(Math.random() * messages.length);
             messageElement.textContent = messages[randomIndex];
@@ -119,5 +128,4 @@
     </script>
 </body>
 
-</html>
-    
+</html>    
