@@ -67,10 +67,11 @@
     <div id="message">愿你的生日如璀璨星辰般闪耀，幸福永远与你相伴！</div>
     <img id="image" src="https://p9-flow-imagex-sign.byteimg.com/ocean-cloud-tos/image_generation/6a30c75a0b0b77cb595a1b3362796d3b_1741678103707880520.png~tplv-a9rns2rl98-image.png?rk3s=25bff839&x-expires=1773214103&x-signature=5jO6t3cI6T8Ksk9oeiKTkDnP%2BOY%3D" alt="Birthday Image">
     <!-- 添加音频标签 -->
-    <audio id="birthdayMusic" autoplay loop>
+    <audio id="birthdayMusic" loop>
         <source src="happy-birthday-254480.mp3" type="audio/mpeg">
         你的浏览器不支持音频播放。
     </audio>
+    <button id="playButton">播放音乐</button>
 
     <script>
         const emojis = ['💖', '🎈', '⭐', '🍰'];
@@ -82,10 +83,16 @@
             '祝你生日快乐，岁岁年年都有今朝的快乐！'
         ];
         const messageElement = document.getElementById('message');
+        const audio = document.getElementById('birthdayMusic');
+        const playButton = document.getElementById('playButton');
 
         document.addEventListener('click', () => {
             const randomIndex = Math.floor(Math.random() * messages.length);
             messageElement.textContent = messages[randomIndex];
+        });
+
+        playButton.addEventListener('click', () => {
+            audio.play();
         });
 
         function createFallingEmoji() {
@@ -120,4 +127,3 @@
 </body>
 
 </html>
-    
