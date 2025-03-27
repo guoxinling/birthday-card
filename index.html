@@ -1,131 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday!</title>
+    <title>生日贺卡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
-
         body {
-            background: radial-gradient(circle, #ffb6c1, #ffd700);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, pink, gold);
             overflow: hidden;
-        }
-
-        h1 {
             font-family: 'Dancing Script', cursive;
+        }
+        h1 {
             color: white;
-            font-size: 60px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 4em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             animation: pulse 0.5s infinite alternate;
+            text-align: center;
         }
-
         @keyframes pulse {
-            from {
-                transform: scale(1);
-            }
-
-            to {
-                transform: scale(1.1);
-            }
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
-
-        #message {
-            font-family: YouYuan;
-            font-size: 24px;
-            margin: 20px 0;
-        }
-
-        #image {
-            width: 300px;
-            height: auto;
-        }
-
-        .falling {
+        .emoji {
             position: absolute;
-            top: -50px;
+            font-size: 2em;
             animation: fall linear infinite;
         }
-
         @keyframes fall {
-            to {
-                top: 100vh;
+            from { transform: translateY(-100vh); }
+            to { transform: translateY(100vh); }
+        }
+        .blessing {
+            font-family: '幼圆', sans-serif;
+            font-size: 1.5em;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image {
+            display: block;
+            margin: 20px auto;
+            width: 200px;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            .blessing {
+                font-size: 1em;
+            }
+            .image {
+                width: 150px;
             }
         }
     </style>
 </head>
-
 <body>
-    <h1>Happy Birthday!</h1>
-    <div id="message">愿你的生日如璀璨星辰般闪耀，幸福永远与你相伴！</div>
-    <img id="image" src="https://p9-flow-imagex-sign.byteimg.com/ocean-cloud-tos/image_generation/6a30c75a0b0b77cb595a1b3362796d3b_1741678103707880520.png~tplv-a9rns2rl98-image.png?rk3s=25bff839&x-expires=1773214103&x-signature=5jO6t3cI6T8Ksk9oeiKTkDnP%2BOY%3D" alt="Birthday Image">
-    <!-- 添加音频标签 -->
-    <audio id="birthdayMusic" autoplay loop>
-        <source src="happy-birthday-254480.mp3" type="audio/mpeg">
-        你的浏览器不支持音频播放。
-    </audio>
-
+    <audio id="background-music" src="happy-birthday-254480.mp3" loop></audio>
+    <div>
+        <h1>Happy Birthday!</h1>
+        <div class="blessing" id="blessing">祝你生日快乐，愿你拥有美好的一天！</div>
+        <img class="image" src="https://p9-flow-imagex-sign.byteimg.com/ocean-cloud-tos/image_generation/6a30c75a0b0b77cb595a1b3362796d3b_1741678103707880520.png~tplv-a9rns2rl98-image.png?rk3s=25bff839&x-expires=1773214103&x-signature=5jO6t3cI6T8Ksk9oeiKTkDnP%2BOY%3D" alt="蛋糕图片">
+    </div>
     <script>
-        const emojis = ['💖', '🎈', '⭐', '🍰'];
-        const messages = [
-            '猪猪愿你的生日如璀璨星辰般闪耀，幸福永远与你相伴！',
-            '猪猪在这个特别的日子里，祝你生日快乐，梦想成真！',
-            '猪猪生日快乐！愿生活的每一天都充满阳光和欢笑。',
-            '愿你的生日是一场奇妙的冒险，快乐永不止步！',
-            '祝你生日快乐，岁岁年年都有今朝的快乐！'
+        const emojis = ['❤️', '🎈', '⭐', '🎂'];
+        const blessings = [
+            "愿你拥有美好的一天！",
+            "祝你生日快乐！",
+            "愿你梦想成真！",
+            "祝你幸福快乐！"
         ];
-        const messageElement = document.getElementById('message');
 
-        // 获取音频元素
-        const audio = document.getElementById('birthdayMusic');
-
-        // 添加调试代码
-        console.log('音频元素:', audio);
-        audio.addEventListener('error', (event) => {
-            console.error('音频加载出错:', event.target.error);
-        });
-
-        document.addEventListener('click', () => {
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            messageElement.textContent = messages[randomIndex];
-        });
-
-        function createFallingEmoji() {
-            const emoji = document.createElement('span');
-            emoji.classList.add('falling');
+        function createEmoji() {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
             emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            emoji.style.left = Math.random() * window.innerWidth + 'px';
+            emoji.style.left = Math.random() * 100 + 'vw';
             emoji.style.animationDuration = Math.random() * 3 + 2 + 's';
             document.body.appendChild(emoji);
-
-            setTimeout(() => {
-                document.body.removeChild(emoji);
-            }, 5000);
+            setTimeout(() => emoji.remove(), 5000);
         }
 
-        setInterval(createFallingEmoji, 500);
+        function changeBlessing() {
+            const blessingElement = document.getElementById('blessing');
+            blessingElement.textContent = blessings[Math.floor(Math.random() * blessings.length)];
+        }
 
-        document.addEventListener('mousemove', (e) => {
-            const cake = document.createElement('span');
-            cake.classList.add('falling');
-            cake.textContent = '🍰';
-            cake.style.left = e.clientX + 'px';
-            cake.style.top = e.clientY + 'px';
-            cake.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.body.appendChild(cake);
+        document.body.addEventListener('click', changeBlessing);
 
-            setTimeout(() => {
-                document.body.removeChild(cake);
-            }, 5000);
+        setInterval(createEmoji, 500);
+
+        // 自动播放背景音乐
+        window.addEventListener('load', () => {
+            const audio = document.getElementById('background-music');
+            audio.play().catch(() => {
+                // 处理自动播放失败的情况
+                document.body.addEventListener('click', () => {
+                    audio.play();
+                }, { once: true });
+            });
         });
     </script>
 </body>
-
-</html>    
+</html>
